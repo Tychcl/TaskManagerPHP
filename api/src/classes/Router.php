@@ -8,7 +8,7 @@ use Exception;
 use Classes\Route;
 
 class Router {
-    private $routes = [];
+    public $routes = [];
 
     public function addController($controller) {
         #Получаем атрибут route для пути из контроллера
