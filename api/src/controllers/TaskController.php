@@ -1,19 +1,27 @@
 <?php 
 namespace Controllers;
 
+use Classes\Check;
 use Classes\Response;
 use Classes\Route;
-use Classes\Check;
+use Models\Map\TasksTableMap;
 use Models\Tasks;
-use TasksQuery;
+use Models\TasksQuery;
 
-#[Route("/tasks")]
+#[Route("/api/tasks")]
 class TaskController{
 
     #[Route("","get")]
     public function TaskAdd($params){
-        $response = new Response(200,TasksQuery::create()->getTablesColumns()); 
-        return $response;
+        $fields = ["title", "description", "status"];
+        $response = new Response();
+        if(!Check::params($fields,$params)){
+            $response->status = 400;
+            $response->body = "required ".json_encode($fields);
+            return $response;
+        }
+         
+        
         //Check::params()
         //if()
     }

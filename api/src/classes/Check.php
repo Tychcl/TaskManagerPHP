@@ -3,13 +3,15 @@ namespace Classes;
 
 class Check{
     public static function params($params, $request): bool{
-        $r = true;
         foreach($params as $param){
-            if(!in_array($param, $request)){
-                $r = false;
+            $p = $request[$param] ?? null;
+            if(!in_array($param, $request) ||
+            $p === null ||
+            trim($p === '')){
+                return false;
             }
         }
-        return $r;
+        return true;
     }
 }
 ?>

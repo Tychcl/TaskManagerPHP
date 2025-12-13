@@ -19,7 +19,7 @@ propel:
   paths:
     schemaDir: propel/schema
     outputDir: propel/generated/classes
-    phpDir: src/classes/models
+    phpDir: src/classes
     migrationDir: propel/migrations
     sqlDir: propel/generated/sql
     phpConfDir: propel/generated

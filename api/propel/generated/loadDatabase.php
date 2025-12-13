@@ -5,11 +5,11 @@ $serviceContainer->initDatabaseMapFromDumps(array (
   array (
     'tablesByName' => 
     array (
-      'Tasks' => '\\Map\\TasksTableMap',
+      'Tasks' => '\\Models\\Map\\TasksTableMap',
     ),
     'tablesByPhpName' => 
     array (
-      '\\Tasks' => '\\Map\\TasksTableMap',
+      '\\Tasks' => '\\Models\\Map\\TasksTableMap',
     ),
   ),
 ));

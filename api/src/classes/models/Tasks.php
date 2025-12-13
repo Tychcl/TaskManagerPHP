@@ -1,6 +1,8 @@
 <?php
 
-use Base\Tasks as BaseTasks;
+namespace Models;
+
+use Models\Base\Tasks as BaseTasks;
 
 /**
  * Skeleton subclass for representing a row from the 'Tasks' table.

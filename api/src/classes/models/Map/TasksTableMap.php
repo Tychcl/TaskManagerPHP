@@ -1,9 +1,9 @@
 <?php
 
-namespace Map;
+namespace Models\Map;
 
-use \Tasks;
-use \TasksQuery;
+use Models\Tasks;
+use Models\TasksQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -33,7 +33,7 @@ class TasksTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    public const CLASS_NAME = '.Map.TasksTableMap';
+    public const CLASS_NAME = 'Models.Map.TasksTableMap';
 
     /**
      * The default database name for this class
@@ -53,12 +53,12 @@ class TasksTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    public const OM_CLASS = '\\Tasks';
+    public const OM_CLASS = '\\Models\\Tasks';
 
     /**
      * A class that can be returned by this tableMap
      */
-    public const CLASS_DEFAULT = 'Tasks';
+    public const CLASS_DEFAULT = 'Models.Tasks';
 
     /**
      * The total number of columns
@@ -177,8 +177,8 @@ class TasksTableMap extends TableMap
         $this->setName('Tasks');
         $this->setPhpName('Tasks');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Tasks');
-        $this->setPackage('');
+        $this->setClassName('\\Models\\Tasks');
+        $this->setPackage('Models');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('Id', 'Id', 'INTEGER', true, null, null);
@@ -409,7 +409,7 @@ class TasksTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Tasks) { // it's a model object
+        } elseif ($values instanceof \Models\Tasks) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

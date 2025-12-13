@@ -1,12 +1,12 @@
 <?php
 
-namespace Base;
+namespace Models\Base;
 
-use \Tasks as ChildTasks;
-use \TasksQuery as ChildTasksQuery;
 use \Exception;
 use \PDO;
-use Map\TasksTableMap;
+use Models\Tasks as ChildTasks;
+use Models\TasksQuery as ChildTasksQuery;
+use Models\Map\TasksTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -71,13 +71,13 @@ abstract class TasksQuery extends ModelCriteria
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \Base\TasksQuery object.
+     * Initializes internal state of \Models\Base\TasksQuery object.
      *
      * @param string $dbName The database name
      * @param string $modelName The phpName of a model, e.g. 'Book'
      * @param string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\Tasks', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = '\\Models\\Tasks', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }

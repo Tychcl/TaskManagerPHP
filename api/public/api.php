@@ -7,7 +7,6 @@ require_once dirname(__DIR__) . '/propel/generated/config.php';
 
 $router = new Router();
 $router->addController('Controllers\TaskController');
-echo json_encode($router->routes);
 
 $request = new Request();
 $response = $router->dispatch($request);

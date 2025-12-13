@@ -1,11 +1,11 @@
 <?php
 
-namespace Base;
+namespace Models\Base;
 
-use \TasksQuery as ChildTasksQuery;
 use \Exception;
 use \PDO;
-use Map\TasksTableMap;
+use Models\TasksQuery as ChildTasksQuery;
+use Models\Map\TasksTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -23,7 +23,7 @@ use Propel\Runtime\Parser\AbstractParser;
  *
  *
  *
- * @package    propel.generator..Base
+ * @package    propel.generator.Models.Base
  */
 abstract class Tasks implements ActiveRecordInterface
 {
@@ -32,7 +32,7 @@ abstract class Tasks implements ActiveRecordInterface
      *
      * @var string
      */
-    public const TABLE_MAP = '\\Map\\TasksTableMap';
+    public const TABLE_MAP = '\\Models\\Map\\TasksTableMap';
 
 
     /**
@@ -110,7 +110,7 @@ abstract class Tasks implements ActiveRecordInterface
     }
 
     /**
-     * Initializes internal state of Base\Tasks object.
+     * Initializes internal state of Models\Base\Tasks object.
      * @see applyDefaults()
      */
     public function __construct()
@@ -519,7 +519,7 @@ abstract class Tasks implements ActiveRecordInterface
             return $startcol + 4; // 4 = TasksTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Tasks'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Models\\Tasks'), 0, $e);
         }
     }
 
@@ -1088,7 +1088,7 @@ abstract class Tasks implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of \Tasks (or compatible) type.
+     * @param object $copyObj An object of \Models\Tasks (or compatible) type.
      * @param bool $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param bool $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws \Propel\Runtime\Exception\PropelException
@@ -1114,7 +1114,7 @@ abstract class Tasks implements ActiveRecordInterface
      * objects.
      *
      * @param bool $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Tasks Clone of current object.
+     * @return \Models\Tasks Clone of current object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
     public function copy(bool $deepCopy = false)

@@ -1,6 +1,8 @@
 <?php
 
-use Base\TasksQuery as BaseTasksQuery;
+namespace Models;
+
+use Models\Base\TasksQuery as BaseTasksQuery;
 
 /**
  * Skeleton subclass for performing query and update operations on the 'Tasks' table.
