@@ -39,12 +39,26 @@ class TaskController{
                 $response->body = "Task with that parameters already exists";
                 return $response;
             }
-            
+
             $task = new Tasks();
             $task->setTitle($params["title"])
             ->setDescription($params["description"])
             ->setStatus($params["status"])->save();
             $response->body = "Task added with id = ".$task->getId();
+            return $response;
+        }
+        catch(Exception $ex){
+            $response->status = 500;
+            $response->body = $ex->getMessage();
+            return $response;
+        }
+    }
+
+    #[Route("","get")]
+    public function TaskGet($params){
+        try{
+            $response = new Response();
+            $response->body = TasksQuery::create()->find()->toArray();
             return $response;
         }
         catch(Exception $ex){
