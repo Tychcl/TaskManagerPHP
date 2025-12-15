@@ -49,7 +49,7 @@ class Router {
         }
         
         $jsonData = json_decode($request->body, true) ?? [];
-        
+        error_log($request->body);
         $queryParams = [];
         $queryString = parse_url($uri, PHP_URL_QUERY);
         if ($queryString) {

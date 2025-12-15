@@ -1,128 +1,98 @@
 <?php 
 namespace Controllers;
 
-use Classes\Check;
+use Classes\Validate;
 use Classes\Response;
 use Classes\Route;
 use Exception;
-use GrahamCampbell\ResultType\Success;
 use Models\Base\StatusesQuery;
-use Models\Map\TasksTableMap;
 use Models\Tasks;
 use Models\TasksQuery;
-use Symfony\Component\Console\Tester\Constraint\CommandIsSuccessful;
 
 #[Route("/api/tasks")]
 class TaskController{
+
+    protected function Ex(Exception $ex){
+        return new Response(500,$ex->getMessage());
+    }
 
     #[Route("","POST")]
     public function TaskAdd($params){
         try{
             $fields = ["title", "description", "status"];
-            $response = new Response();
 
-            if(!Check::params($fields,$params)){
-                $response->status = 400;
-                $response->body = "required ".json_encode($params);
-                return $response;
+            if(Validate::params($fields,$params)){
+                return new Response(400, "required ".json_encode($params));
             }
 
-            $sts = StatusesQuery::create()->find()->toArray();
-            if($params["status"] > count($sts)){
-                $response->status = 400;
-                $response->body = "status id required ".json_encode($sts);
-                return $response;
+            if(Validate::Status($params["status"], $r)){
+                return $r;
             }
 
             if(TasksQuery::create()->filterByTitle($params["title"])
             ->filterByDescription($params["description"])
             ->filterByStatus($params["status"])->exists()){
-                $response->status = 409;
-                $response->body = "Task with that parameters already exists";
-                return $response;
+                return new Response(400, "Task with that parameters already exists");
             }
 
             $task = new Tasks();
             $task->setTitle($params["title"])
             ->setDescription($params["description"])
             ->setStatus($params["status"])->save();
-            $response->body = "Task added with id = ".$task->getId();
-            return $response;
+            return new Response(200,"Task added with id = ".$task->getId());
         }
         catch(Exception $ex){
-            $response->status = 500;
-            $response->body = $ex->getMessage();
-            return $response;
+            return $this->Ex($ex);
         }
     }
 
     #[Route("","GET")]
     public function GetTasks(){
         try{
-            $response = new Response();
-            $response->body = TasksQuery::create()->find()->toArray();
-            return $response;
+            return new Response(200, TasksQuery::create()->find()->toArray());
         }
         catch(Exception $ex){
-            $response->status = 500;
-            $response->body = $ex->getMessage();
-            return $response;
+            return $this->Ex($ex);
         }
     }
 
     #[Route("/{id}","GET")]
     public function GetTaskById($params){
         try{
-            $response = new Response();
             $id = $params["id"] ?? null;
 
-            if($id === null){
-                $response->status = 400;
-                $response->body = "required id(int)";
-                return $response;
+            if(Validate::IdNull($id, $r)){
+                return $r;
             }
 
-            $task = TasksQuery::create()->findOneById($id);
-            if($task == null){
-                $response->status = 400;
-                $response->body = "task with id = ".$id." not found or incorrect id";
-                return $response;
+            $task = Validate::TaskById($id, $r);
+            if($task === null){
+                return $r;
             }
 
-            $response->body = json_encode($task);
-            return $response;
+            return new Response(200, json_encode($task->toArray()));
         }
         catch(Exception $ex){
-            $response->status = 500;
-            $response->body = $ex->getMessage();
-            return $response;
+            return $this->Ex($ex);
         }
     }
 
     #[Route("/{id}","PUT")]
     public function EditTaskById($params){
         try{
-            $response = new Response();
             $id = $params["id"] ?? null;
 
-            if($id === null){
-                $response->status = 400;
-                $response->body = "required id(int)";
-                return $response;
+            if(Validate::IdNull($id, $r)){
+                return $r;
             }
 
-            $sts = StatusesQuery::create()->find()->toArray();
-            if($params["status"] > count($sts)){
-                $response->status = 400;
-                $response->body = "wrong status id ".json_encode($sts);
-                return $response;
+            if(Validate::Status($params["status"], $r)){
+                return $r;
             }
 
-            $task = TasksQuery::create()->findOneById($id);
+            $task = Validate::TaskById($id, $r);
             if($task === null){
-                $response->status = 400;
-                $response->body = "task with id = ".$id." not found or incorrect id";
-                return $response;
+                return $r;
             }
 
             foreach ($params as $key => $value) {
@@ -137,43 +107,32 @@ class TaskController{
             }
 
             $task->save();
-            $response->body = "task successful updated";
-            return $response;
+            return new Response(200, "task successful updated");
         }
         catch(Exception $ex){
-            $response->status = 500;
-            $response->body = $ex->getMessage();
-            return $response;
+            return $this->Ex($ex);
         }
     }
 
     #[Route("/{id}","DELETE")]
     public function DeleteTaskById($params){
         try{
-            $response = new Response();
             $id = $params["id"] ?? null;
 
-            if($id === null){
-                $response->status = 400;
-                $response->body = "required id(int)";
-                return $response;
+            if(Validate::IdNull($id, $r)){
+                return $r;
             }
 
-            $task = TasksQuery::create()->findOneById($id);
-            if($task == null){
-                $response->status = 400;
-                $response->body = "task with id = ".$id." not found or incorrect id";
-                return $response;
+            $task = Validate::TaskById($id, $r);
+            if($task === null){
+                return $r;
             }
 
             $task->delete();
-            $response->body = "Task deleted";
-            return $response;
+            return new Response(200, "Task deleted");
         }
         catch(Exception $ex){
-            $response->status = 500;
-            $response->body = $ex->getMessage();
-            return $response;
+            return $this->Ex($ex);
         }
     }
 }

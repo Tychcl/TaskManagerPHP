@@ -21,6 +21,7 @@ class Request
         $this->cookie = $_COOKIE;
         $this->files = $_FILES;
         $this->params = $_REQUEST;
+        error_log("Request body: " . $this->body);
     }
 }
 ?>
